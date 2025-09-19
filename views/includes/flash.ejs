@@ -1,0 +1,20 @@
+<!-- //views/includes/flash.ejs
+//flash messages display
+//success and error are variables defined in app.js middleware for flash -->
+<% if(success && success.length) { %>
+    <div class="alert alert-success alert-dismissible fade show col-6 offset-3" role="alert">
+        <%= success%>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<%}%>
+
+
+<!-- //error is a variable defined in app.js middleware for flash
+//if there is an error message, display it -->
+
+<% if(error && error.length) { %>
+    <div class="alert alert-danger alert-dismissible fade show col-6 offset-3" role="alert">
+        <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<%}%>
