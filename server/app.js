@@ -16,7 +16,6 @@ const User = require("./models/user");
 const listingRouter = require("./routes/listing");
 const reviewRouter = require("./routes/review");
 const userRouter = require("./routes/user");
-
 const seedDB = require("./init/index");
 
 const app = express();
@@ -31,27 +30,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "../client/public")));
 
-/* ------------------- DATABASE ------------------- */
-const MONGO_URL = process.env.MONGO_URL;
-
-mongoose
-    .connect(MONGO_URL)
-    .then(async () => {
-        console.log("✅ MongoDB connected");
-
-        // 🔥 SEED ONLY ONCE
-        if (process.env.SEED_DB === "true") {
-            await seedDB();
-            console.log("🌱 Seeding done");
-        }
-    })
-    .catch((err) => console.log(err));
-
 /* ------------------- SESSION ------------------- */
 const sessionOptions = {
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || "fallbacksecret",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         httpOnly: true,
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
@@ -92,8 +75,28 @@ app.use((err, req, res, next) => {
     res.status(statusCode).send(message);
 });
 
-/* ------------------- SERVER ------------------- */
+/* ------------------- DATABASE + SERVER START ------------------- */
+const MONGO_URL = process.env.MONGO_URL;
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-});
+
+const startServer = async () => {
+    try {
+        await mongoose.connect(MONGO_URL);
+        console.log("✅ MongoDB connected");
+
+        // 🔥 Seed ONLY if explicitly enabled
+        if (process.env.SEED_DB === "true") {
+            await seedDB();
+            console.log("🌱 Database seeded");
+        }
+
+        app.listen(PORT, () => {
+            console.log(`🚀 Server running on port ${PORT}`);
+        });
+    } catch (err) {
+        console.error("❌ MongoDB connection failed:", err);
+        process.exit(1);
+    }
+};
+
+startServer();

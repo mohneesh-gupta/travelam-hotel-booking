@@ -1,29 +1,29 @@
-const mongoose = require("mongoose");
 const Listing = require("../models/listing");
-const data = require("./data");
+const { data: sampleListings } = require("./data");
 
-const MONGO_URL = process.env.MONGO_URL;
-
+/**
+ * Seed database with initial listings
+ * This function assumes MongoDB is already connected
+ */
 const seedDB = async () => {
-  await Listing.deleteMany({});
-  const listings = data.map((obj) => ({
-    ...obj,
-    owner: "68bd89d2282d4aa93dc13471", // existing user id
-  }));
-
-  await Listing.insertMany(listings);
-  console.log("✅ Database seeded");
-};
-
-const runSeed = async () => {
   try {
-    await mongoose.connect(MONGO_URL);
-    console.log("Mongo connected (seed)");
-    await seedDB();
-    mongoose.connection.close();
+    // Clear existing listings
+    await Listing.deleteMany({});
+
+    // Add owner field to each listing
+    const listings = sampleListings.map((listing) => ({
+      ...listing,
+      owner: "68bd89d2282d4aa93dc13471", // existing user ObjectId
+    }));
+
+    // Insert new listings
+    await Listing.insertMany(listings);
+
+    console.log("🌱 Database seeded successfully");
   } catch (err) {
-    console.error(err);
+    console.error("❌ Seeding failed:", err);
+    throw err;
   }
 };
 
-module.exports = runSeed;
+module.exports = seedDB;
