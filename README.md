@@ -1,4 +1,4 @@
-# 🌍 Wanderlust
+# 🌍 Travelam
 
 > *Discover. Explore. Stay. Repeat.*
 
