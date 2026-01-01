@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🌍 Wanderlust
 
 > *Discover. Explore. Stay. Repeat.*
@@ -51,7 +50,7 @@ Built with the **MERN-like architecture (MongoDB, Express, Node.js, and EJS)**, 
 <img width="1920" height="1080" alt="Screenshot 2025-09-19 075343" src="https://github.com/user-attachments/assets/901bc752-1e67-4dc9-996d-3aad299dcdd3" />
 
 
-=======
+
 # Project Structure
 
 This project has been restructured into a Client-Server architecture.
