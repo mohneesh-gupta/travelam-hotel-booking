@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-md bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <i class="fa-regular fa-compass"></i>&nbsp; WanderLust
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav ms-auto align-items-center">
+        <div class="nav-links-center d-none d-md-flex me-4">
+          <a class="nav-link" href="/">Home</a>
+          <a class="nav-link" href="/listings">All Listings</a>
+          <a class="nav-link" href="/listings/new">Airbnb your home</a>
+        </div>
+
+        <div class="user-nav-pill ms-3 dropdown">
+          <div class="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-bars ps-1 pe-2"></i>
+            <i class="fa-solid fa-circle-user fa-xl user-avatar-icon pe-1"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2"
+            style="border-radius: 12px; padding: 10px 0;">
+            <% if(!currentUser){ %>
+              <li><a class="dropdown-item fw-bold" href="/signup">Sign up</a></li>
+              <li><a class="dropdown-item" href="/login">Log in</a></li>
+              <% } %>
+                <% if(currentUser){ %>
+                  <li>
+                    <h6 class="dropdown-header">Hello, <%= currentUser.username %>!</h6>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href="/listings/new">Create Listing</a></li>
+                  <li><a class="dropdown-item" href="/logout">Log out</a></li>
+                  <% } %>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Help Center</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🌍 Wanderlust
 
 > *Discover. Explore. Stay. Repeat.*
@@ -50,3 +51,35 @@ Built with the **MERN-like architecture (MongoDB, Express, Node.js, and EJS)**, 
 <img width="1920" height="1080" alt="Screenshot 2025-09-19 075343" src="https://github.com/user-attachments/assets/901bc752-1e67-4dc9-996d-3aad299dcdd3" />
 
 
+=======
+# Project Structure
+
+This project has been restructured into a Client-Server architecture.
+
+## Structure
+
+- **client/**: Contains the frontend code (Views, Public assets).
+- **server/**: Contains the backend code (Express app, Models, Routes, Database logic).
+
+## How to Run
+
+1. Open your terminal.
+2. Navigate to the `server` directory:
+   ```bash
+   cd server
+   ```
+3. Install dependencies (if you haven't already):
+   ```bash
+   npm install
+   ```
+4. Start the server:
+   ```bash
+   node app.js
+   ```
+   or if you use nodemon:
+   ```bash
+   nodemon app.js
+   ```
+
+The server will serve the frontend views from the `../client/views` directory.
+>>>>>>> 6c72dc8 (final setup)

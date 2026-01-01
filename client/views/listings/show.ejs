@@ -1,0 +1,139 @@
+<% layout('layouts/boilerplate.ejs') %>
+
+    <div class="row">
+        <div class="col-10 offset-1">
+
+            <!-- Header Section -->
+            <div class="show-header">
+                <h1 class="listing-title">
+                    <%=listing.title%>
+                </h1>
+                <p class="listing-location"><i class="fa-solid fa-location-dot"></i>&nbsp; <%=listing.location%>,
+                        <%=listing.country%>
+                </p>
+            </div>
+
+            <!-- Image Section -->
+            <div class="show-img-container">
+                <img src="<%=listing.image%>" class="show-img" alt="listing_image">
+            </div>
+
+            <!-- Content Grid (Details Left, Booking Box Right) -->
+            <div class="listing-content-grid">
+
+                <!-- Left Column: Details -->
+                <div class="listing-details">
+                    <div class="host-info">
+                        <span>Hosted by <%= listing.owner.username%></span>
+                        <i class="fa-solid fa-circle-user fa-2x text-muted"></i>
+                    </div>
+
+                    <div class="listing-desc">
+                        <p>
+                            <%=listing.description%>
+                        </p>
+                    </div>
+
+                    <!-- Admin Actions (Only for Owner) -->
+                    <% if(currentUser && currentUser._id.equals(listing.owner._id)) { %>
+                        <div class="btns mb-4">
+                            <a href="/listings/<%=listing._id%>/edit" class="btn btn-dark">Edit Listing</a>
+                            <form class="d-inline" method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
+                                <button class="btn btn-outline-danger ms-2">Delete Listing</button>
+                            </form>
+                        </div>
+                        <% } %>
+
+                            <hr>
+
+                            <!-- Reviews Section -->
+                            <div class="reviews-section mt-4">
+                                <h4 class="mb-4">Guest Reviews</h4>
+
+                                <% if(currentUser) { %>
+                                    <div class="card p-3 mb-4 bg-light border-0">
+                                        <h6 class="mb-3">Leave a Review</h6>
+                                        <form action="/listings/<%=listing.id%>/reviews" method="POST" novalidate
+                                            class="needs-validation">
+                                            <div class="mb-3">
+                                                <label for="rating" class="form-label small fw-bold">Rating</label>
+                                                <input type="range" min="1" max="5" id="rating" name="review[rating]"
+                                                    class="form-range" style="width: 200px;">
+                                            </div>
+                                            <div class="mb-3">
+                                                <textarea name="review[comment]" id="comment" cols="30" rows="3"
+                                                    class="form-control" placeholder="Share your experience..."
+                                                    required></textarea>
+                                            </div>
+                                            <button class="btn btn-dark btn-sm">Submit Review</button>
+                                        </form>
+                                    </div>
+                                    <% } %>
+
+                                        <% if(listing.reviews.length> 0) { %>
+                                            <div class="row">
+                                                <% for (review of listing.reviews){ %>
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="review-card">
+                                                            <div class="d-flex justify-content-between">
+                                                                <div>
+                                                                    <div class="review-author">@
+                                                                        <%=review.author.username%>
+                                                                    </div>
+                                                                    <div class="star-rating">
+                                                                        <% for(let i=0; i<review.rating; i++) { %>★<% }
+                                                                                %>
+                                                                                <span class="text-muted small"
+                                                                                    style="font-weight: 400;">(
+                                                                                    <%=review.rating%>)</span>
+                                                                    </div>
+                                                                </div>
+                                                                <% if(currentUser &&
+                                                                    currentUser._id.equals(review.author._id)) { %>
+                                                                    <form method="POST"
+                                                                        action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">
+                                                                        <button
+                                                                            class="btn btn-sm text-danger border-0 bg-transparent"><i
+                                                                                class="fa-solid fa-trash"></i></button>
+                                                                    </form>
+                                                                    <% } %>
+                                                            </div>
+                                                            <p class="card-text text-muted small mt-2">
+                                                                <%=review.comment%>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
+                                            </div>
+                                            <% } else { %>
+                                                <p class="text-muted">No reviews yet.</p>
+                                                <% } %>
+                            </div>
+                </div>
+
+                <!-- Right Column: Booking Card (Sticky) -->
+                <div class="listing-booking">
+                    <div class="booking-card">
+                        <div class="d-flex justify-content-between align-items-end mb-3">
+                            <div>
+                                <span class="price-large">&#8377; <%=listing.price.toLocaleString("en-IN")%></span>
+                                <span class="price-sub"> / night</span>
+                            </div>
+                            <div class="text-muted small">
+                                <i class="fa-solid fa-star text-warning"></i> New
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary btn-lg">Reserve</button>
+                        </div>
+
+                        <div class="text-center mt-3 text-muted small">
+                            You won't be charged yet
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
